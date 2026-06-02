@@ -1,0 +1,689 @@
+/* ============================================
+   SHARED STYLES - خدمات العاملات المنزلية
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: #f7f7f7;
+    color: #222;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ===== HEADER ===== */
+.main-header {
+    width: 100%;
+    background: #fff;
+    padding: 12px clamp(18px, 5vw, 48px);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.logo {
+    margin-left: auto;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+    width: min(90%, 1200px);
+    max-width: 1200px;
+    margin: auto;
+}
+
+section {
+    padding: clamp(48px, 7vw, 80px) 0;
+}
+
+section h2 {
+    text-align: center;
+    font-size: clamp(28px, 4vw, 38px);
+    margin-bottom: 32px;
+    color: #00a651;
+    font-weight: 800;
+}
+
+/* ===== SLIDER ===== */
+.hero-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: #e7f4ed;
+    padding: 0;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: clamp(420px, 62vh, 620px);
+    min-height: 420px;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .7s ease;
+    z-index: 0;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slider-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 86, 44, 0.72)),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.24));
+}
+
+.hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-align: right;
+}
+
+.hero-content .container {
+    margin: auto;
+}
+
+.hero-content h1 {
+    max-width: 680px;
+    margin-bottom: 16px;
+    color: #fff;
+    font-size: clamp(34px, 6vw, 62px);
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.hero-content p {
+    max-width: 560px;
+    margin-bottom: 26px;
+    color: rgba(255,255,255,0.96);
+    font-size: clamp(18px, 2.4vw, 24px);
+    font-weight: 600;
+}
+
+.hero-btn {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+/* ===== BOOKING OPTIONS ===== */
+.booking-options {
+    background: #f7faf8;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.option-card {
+    background: #fff;
+    border: 1px solid #e7eee9;
+    border-radius: 8px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.09);
+}
+
+.icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.option-card h3 {
+    margin-bottom: 12px;
+    font-size: 25px;
+}
+
+.option-card p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background: #00a651;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background .3s ease, transform .3s ease;
+}
+
+.btn:hover {
+    background: #008a44;
+    transform: translateY(-2px);
+}
+
+/* ===== FEATURES ===== */
+.features {
+    background: #fff;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.feature {
+    background: #fff;
+    border: 1px solid #e9efe9;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+}
+
+.feature span {
+    font-size: 35px;
+    color: #00a651;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* ===== WORKERS ===== */
+.workers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.worker-card {
+    background: #fff;
+    border: 1px solid #e7eee9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.worker-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(0,0,0,.1);
+}
+
+.worker-card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    background: #ddd;
+}
+
+.worker-card h3 {
+    padding: 18px 15px 8px;
+    font-size: 23px;
+}
+
+.worker-card p {
+    padding: 0 15px 25px;
+    color: #666;
+}
+
+/* ===== FORM ===== */
+.form-container {
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #222;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Cairo', sans-serif;
+    transition: .3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00a651;
+}
+
+.expiry-date-group {
+    display: flex;
+    gap: 10px;
+}
+
+.expiry-date-group select {
+    flex: 1;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: #00a651;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn-submit:hover {
+    background: #008a44;
+}
+
+/* ===== PRICE DISPLAY ===== */
+.price-display {
+    display: none;
+    background: #f0fdf4;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #22c55e;
+}
+
+.price-display h4 {
+    margin: 0 0 10px 0;
+    color: #166534;
+}
+
+.price-display .price-text {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #15803d;
+}
+
+.price-display .price-explanation {
+    margin: 8px 0 0 0;
+    font-size: 12px;
+    color: #166534;
+}
+
+/* ===== SUMMARY ===== */
+.summary-container {
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.summary-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.summary-header h2 {
+    font-size: 32px;
+    color: #00a651;
+    margin-bottom: 10px;
+}
+
+.summary-subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+.summary-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+
+.summary-section h3 {
+    font-size: 20px;
+    color: #00a651;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-weight: 700;
+    color: #666;
+}
+
+.summary-value {
+    color: #222;
+    font-weight: 600;
+}
+
+.total-price {
+    background: linear-gradient(135deg, #00a651, #00793d);
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.summary-actions {
+    margin-top: 25px;
+}
+
+.summary-actions .btn-submit {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* ===== VERIFICATION ===== */
+.verification-container {
+    max-width: 400px;
+    margin: auto;
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+.verification-container h2 {
+    margin-bottom: 20px;
+    color: #00a651;
+}
+
+.verification-container p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.verification-code {
+    font-size: 42px;
+    font-weight: 800;
+    color: #00a651;
+    letter-spacing: 8px;
+    margin: 25px 0;
+}
+
+/* ===== MESSAGES ===== */
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* ===== STEP INDICATOR ===== */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 0;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.step-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    transition: .3s;
+    z-index: 1;
+}
+
+.step-circle.active {
+    background: #00a651;
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(0,166,81,0.2);
+}
+
+.step-circle.done {
+    background: #00a651;
+    color: #fff;
+}
+
+.step-label {
+    font-size: 12px;
+    margin-top: 6px;
+    color: #999;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.step-label.active,
+.step-label.done {
+    color: #00a651;
+}
+
+.step-line {
+    width: 60px;
+    height: 3px;
+    background: #e0e0e0;
+    margin-bottom: 20px;
+    transition: .3s;
+}
+
+.step-line.done {
+    background: #00a651;
+}
+
+/* ===== WAITING PAGE ===== */
+.waiting-card {
+    max-width: 720px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    text-align: center;
+}
+
+.waiting-card h1 {
+    margin: 0 0 20px;
+    font-size: 48px;
+    color: #047857;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.waiting-card p {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.7;
+    color: #334155;
+    font-weight: 700;
+}
+
+.spinner {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 35px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #00a651;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 10px 18px;
+    }
+
+    .logo img {
+        width: 90px;
+    }
+
+    .slider-container {
+        height: 470px;
+        min-height: 470px;
+    }
+
+    .slide {
+        object-position: center;
+    }
+
+    .slider-container::after {
+        background: linear-gradient(180deg, rgba(0, 86, 44, 0.74), rgba(0, 0, 0, 0.28));
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-content h1,
+    .hero-content p {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    section h2 {
+        font-size: 28px;
+    }
+
+    .options-grid,
+    .features-grid,
+    .workers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .worker-card img {
+        height: 280px;
+    }
+
+    .form-container,
+    .summary-container,
+    .verification-container {
+        padding: 25px;
+    }
+
+    .summary-header h2 {
+        font-size: 24px;
+    }
+
+    .summary-section h3 {
+        font-size: 18px;
+    }
+
+    .total-price {
+        font-size: 24px;
+    }
+
+    .step-line {
+        width: 30px;
+    }
+
+    .step-label {
+        font-size: 10px;
+    }
+
+    .waiting-card h1 {
+        font-size: 32px;
+    }
+
+    .waiting-card p {
+        font-size: 18px;
+    }
+}

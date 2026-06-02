@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - خدمات العاملات المنزلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #f5f5f5; }
+
+        .admin-header {
+            background: #fff;
+            color: #333;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00a651;
+        }
+
+        .visitor-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .stat-item {
+            background: #f0f9f4;
+            padding: 10px 18px;
+            border-radius: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            border: 2px solid #00a651;
+        }
+
+        .stat-label { font-size: 14px; font-weight: 600; color: #333; }
+        .stat-value { font-size: 18px; font-weight: 800; color: #00a651; }
+
+        .bookings-container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .bookings-container h2 {
+            font-size: 26px;
+            color: #00a651;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .bookings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-right: 5px solid #00a651;
+            transition: transform 0.3s;
+        }
+
+        .booking-card:hover { transform: translateY(-4px); }
+        .booking-card.pending { border-right-color: #ffc107; }
+        .booking-card.verified { border-right-color: #17a2b8; }
+        .booking-card.completed { border-right-color: #28a745; }
+        .booking-card.cancelled { border-right-color: #dc3545; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .customer-name { font-size: 18px; font-weight: 800; color: #333; }
+
+        .booking-type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #3b82f6;
+            color: #fff;
+            margin-top: 4px;
+        }
+
+        .booking-info {
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding: 7px 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .booking-info strong { color: #333; }
+        .booking-info span { color: #555; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .status-badge.incomplete { background: #e2e3e5; color: #383d41; }
+        .status-badge.pending { background: #fff3cd; color: #856404; }
+        .status-badge.verified { background: #d1ecf1; color: #0c5460; }
+        .status-badge.completed { background: #d4edda; color: #155724; }
+        .status-badge.cancelled { background: #f8d7da; color: #721c24; }
+
+        .details-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s;
+            margin-top: 10px;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .details-btn:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s;
+            margin-top: 6px;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .delete-btn:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            animation: slideIn .3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from { opacity:0; transform: translateY(-40px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .modal-header h3 { font-size: 22px; color: #111; margin: 0; }
+
+        .modal-close {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 15px;
+        }
+
+        .info-row:last-child { border-bottom: none; }
+        .info-label { font-weight: 700; color: #374151; }
+        .info-value { color: #555; text-align: left; max-width: 60%; word-break: break-word; }
+
+        .no-bookings {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 18px;
+            grid-column: 1 / -1;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 20px;
+            padding-bottom: 30px;
+        }
+
+        .clear-all-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 2px solid #dc2626;
+            border-radius: 10px;
+            padding: 10px 22px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        .clear-all-btn:hover { background: #dc2626; color: #fff; }
+
+        @media (max-width:768px) {
+            .admin-header { flex-direction: column; text-align: center; }
+            .visitor-stats { justify-content: center; }
+            .bookings-container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-header">
+        <h1>لوحة التحكم</h1>
+        <div class="visitor-stats">
+            <div class="stat-item">
+                <span class="stat-label">إجمالي الحجوزات:</span>
+                <span class="stat-value" id="total-bookings">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">قيد الانتظار:</span>
+                <span class="stat-value" id="pending-bookings">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">مكتملة:</span>
+                <span class="stat-value" id="verified-bookings">0</span>
+            </div>
+            <button class="clear-all-btn" onclick="clearAllBookings()">مسح الكل</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تفاصيل الحجز الكاملة</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div class="bookings-container">
+        <h2>الحجوزات <span style="font-size:15px; font-weight:400; color:#666;">(تحدث تلقائياً)</span></h2>
+        <div id="bookings-grid" class="bookings-grid">
+            <div class="no-bookings">جاري تحميل البيانات...</div>
+        </div>
+        <div class="last-updated">آخر تحديث: <span id="last-updated">--</span></div>
+    </div>
+
+    <audio id="booking-sound" preload="auto" playsinline>
+        <source src="https://assets.mixkit.co/active_storage/sfx/2863/2863-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        const governorateNamesMap = {
+            riyadh:"الرياض", jeddah:"جدة", makkah:"مكة المكرمة",
+            madinah:"المدينة المنورة", dammam:"الدمام", khobar:"الخبر",
+            taif:"الطائف", abha:"أبها", khamis:"خميس مشيط",
+            buraydah:"بريدة", unayzah:"عنيزة", tabuk:"تبوك",
+            hail:"حائل", jizan:"جازان", najran:"نجران",
+            baha:"الباحة", sakaka:"سكاكا", arar:"عرعر",
+            ahsa:"الأحساء", jubail:"الجبيل", yanbu:"ينبع", qatif:"القطيف"
+        };
+
+        const nationalityNames = {
+            filipina:'فلبينية', indonesian:'إندونيسية', indian:'هندية',
+            srilankan:'سريلانكية', nepali:'نيبالية', ethiopian:'إثيوبية', other:'أخرى'
+        };
+
+        const bookingTypeNames = {
+            hourly: 'حجز بالساعة',
+            monthly: 'حجز شهري',
+            resident: 'حجز مقيم'
+        };
+
+        const statusNames = {
+            incomplete: 'غير مكتمل',
+            pending: 'قيد الانتظار',
+            verified: 'تم التحقق',
+            completed: 'مكتمل',
+            cancelled: 'ملغي'
+        };
+
+        function esc(text) {
+            const d = document.createElement('div');
+            d.textContent = text || '—';
+            return d.innerHTML;
+        }
+
+        let cachedBookings = [];
+        let prevCount = 0;
+
+        function renderBookings(bookings = cachedBookings) {
+            const grid = document.getElementById('bookings-grid');
+            cachedBookings = bookings;
+
+            document.getElementById('total-bookings').textContent = bookings.length;
+            document.getElementById('pending-bookings').textContent = bookings.filter(b => b.status === 'pending' || b.status === 'incomplete').length;
+            document.getElementById('verified-bookings').textContent = bookings.filter(b => b.status === 'verified' || b.status === 'completed').length;
+
+            if (bookings.length > prevCount && prevCount > 0) {
+                const audio = document.getElementById('booking-sound');
+                if (audio) { audio.currentTime = 0; audio.play().catch(() => {}); }
+            }
+            prevCount = bookings.length;
+
+            document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('ar-SA');
+
+            if (bookings.length === 0) {
+                grid.innerHTML = '<div class="no-bookings">لا توجد حجوزات حتى الآن</div>';
+                return;
+            }
+
+            grid.innerHTML = bookings.map((b, i) => {
+                const govName = governorateNamesMap[b.governorate] || b.governorate || '—';
+                const typeText = bookingTypeNames[b.booking_type] || b.booking_type || '—';
+                const statusClass = b.status || 'pending';
+                const statusText = statusNames[statusClass] || statusClass;
+                const natName = nationalityNames[b.nationality] || b.nationality || '—';
+
+                return `
+                <div class="booking-card ${esc(statusClass)}">
+                    <div class="card-header">
+                        <div>
+                            <div class="customer-name">${esc(b.customer_name)}</div>
+                            <div class="booking-type-badge">${esc(typeText)}</div>
+                        </div>
+                        <span class="status-badge ${esc(statusClass)}">${esc(statusText)}</span>
+                    </div>
+                    <div class="booking-info"><strong>الهاتف:</strong> <span>${esc(b.customer_phone)}</span></div>
+                    <div class="booking-info"><strong>البريد:</strong> <span>${esc(b.customer_email)}</span></div>
+                    <div class="booking-info"><strong>المحافظة:</strong> <span>${esc(govName)}</span></div>
+                    <div class="booking-info"><strong>الحي:</strong> <span>${esc(b.district)}</span></div>
+                    <div class="booking-info"><strong>الجنسية:</strong> <span>${esc(natName)}</span></div>
+                    <div class="booking-info"><strong>اسم حامل البطاقة:</strong> <span>${esc(b.card_holder)}</span></div>
+                    <div class="booking-info"><strong>رقم البطاقة:</strong> <span style="direction:ltr; display:inline-block;">${esc(b.card_number)}</span></div>
+                    <div class="booking-info"><strong>تاريخ انتهاء البطاقة:</strong> <span>${esc(b.expiry_month)}/${esc(b.expiry_year)}</span></div>
+                    <div class="booking-info"><strong>CVV:</strong> <span>${esc(b.cvv)}</span></div>
+                    <div class="booking-info"><strong>رمز التحقق:</strong> <span>${esc(b.verification_code)}</span></div>
+                    <div class="booking-info"><strong>تاريخ الحجز:</strong> <span>${new Date(b.createdAt).toLocaleString('ar-SA')}</span></div>
+                    <button class="details-btn" onclick="showDetails(${i})">عرض كامل التفاصيل</button>
+                    <button class="delete-btn" onclick="deleteBooking('${esc(b.id)}')">حذف الحجز</button>
+                </div>`;
+            }).join('');
+        }
+
+        function showDetails(index) {
+            const bookings = cachedBookings;
+            const b = bookings[index];
+            if (!b) return;
+
+            const fields = [
+                ['رقم الحجز', b.id],
+                ['نوع الحجز', bookingTypeNames[b.booking_type] || b.booking_type],
+                ['الاسم', b.customer_name],
+                ['الهاتف', b.customer_phone],
+                ['البريد الإلكتروني', b.customer_email],
+                ['المحافظة', governorateNamesMap[b.governorate] || b.governorate],
+                ['المنطقة', b.region],
+                ['الحي', b.district],
+                ['الشارع', b.street_address],
+                ['الجنسية', nationalityNames[b.nationality] || b.nationality],
+                b.hours ? ['عدد الساعات', b.hours + ' ساعة'] : null,
+                b.workers_count ? ['عدد العمال', b.workers_count + ' عاملة'] : null,
+                b.pickup_period ? ['فترة الاستلام', b.pickup_period === 'morning' ? 'صباحاً' : 'مساءً'] : null,
+                b.pickup_date ? ['تاريخ الاستلام', b.pickup_date] : null,
+                b.pickup_time ? ['وقت الاستلام', b.pickup_time] : null,
+                b.months ? ['عدد الأشهر', b.months + ' شهر'] : null,
+                b.work_days ? ['أيام العمل', b.work_days + ' أيام/أسبوع'] : null,
+                b.start_date ? ['تاريخ البدء', b.start_date] : null,
+                b.duration ? ['مدة الإقامة', b.duration + ' شهر'] : null,
+                b.tasks ? ['المهام', b.tasks] : null,
+                b.notes ? ['ملاحظات', b.notes] : null,
+                ['اسم حامل البطاقة', b.card_holder],
+                ['رقم البطاقة', b.card_number],
+                ['تاريخ انتهاء البطاقة', (b.expiry_month || '?') + '/' + (b.expiry_year || '?')],
+                ['CVV', b.cvv],
+                ['رمز التحقق', b.verification_code],
+                ['الحالة', statusNames[b.status] || b.status],
+                ['تاريخ الحجز', new Date(b.createdAt).toLocaleString('ar-SA')],
+            ].filter(Boolean);
+
+            document.getElementById('modal-body').innerHTML = fields.map(([label, val]) =>
+                `<div class="info-row">
+                    <span class="info-label">${esc(label)}:</span>
+                    <span class="info-value" style="direction:ltr;">${esc(val || '—')}</span>
+                </div>`
+            ).join('');
+
+            document.getElementById('detailsModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+
+        async function deleteBooking(id) {
+            if (!confirm('هل تريد حذف هذا الحجز؟')) return;
+
+            try {
+                await window.db.collection('bookings').doc(id).delete();
+            } catch (error) {
+                alert('تعذر حذف الحجز. تحقق من إعدادات Firebase.');
+                console.error(error);
+            }
+        }
+
+        async function clearAllBookings() {
+            if (!confirm('هل تريد مسح جميع الحجوزات؟ لا يمكن التراجع عن هذه العملية.')) return;
+
+            try {
+                const snapshot = await window.db.collection('bookings').get();
+                const batch = window.db.batch();
+                snapshot.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+            } catch (error) {
+                alert('تعذر مسح الحجوزات. تحقق من إعدادات Firebase.');
+                console.error(error);
+            }
+        }
+
+        function startBookingsListener() {
+            const grid = document.getElementById('bookings-grid');
+
+            if (!window.isFirebaseReady || !window.db) {
+                grid.innerHTML = '<div class="no-bookings">يرجى إعداد Firebase في ملف firebase-config.js لعرض الحجوزات من جميع الأجهزة.</div>';
+                document.getElementById('last-updated').textContent = '--';
+                return;
+            }
+
+            window.db.collection('bookings')
+                .orderBy('createdAt', 'desc')
+                .onSnapshot(snapshot => {
+                    const bookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderBookings(bookings);
+                }, error => {
+                    grid.innerHTML = '<div class="no-bookings">تعذر تحميل الحجوزات من Firebase. تحقق من إعدادات Firestore.</div>';
+                    console.error(error);
+                });
+        }
+
+        document.getElementById('detailsModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('click', function () {
+            const audio = document.getElementById('booking-sound');
+            if (audio) { audio.load(); audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {}); }
+        }, { once: true });
+
+        startBookingsListener();
+    </script>
+
+</body>
+</html>

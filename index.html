@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمات العاملات المنزلية - سماسكو</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="https://www.smasco.com/wp-content/uploads/2022/11/%D8%B3%D9%85%D8%A7%D8%B3%D9%83%D9%88.png" alt="شعار سماسكو">
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO / SLIDER ===== -->
+        <section class="hero-slider">
+            <div class="slider-container">
+                <img src="images/hero1.webp" alt="خدمات منزلية احترافية" class="slide active">
+                <img src="images/hero4.webp" alt="خدمة عاملات منزلية" class="slide">
+                <img src="images/hero2.jpg" alt="عاملة منزلية محترفة" class="slide">
+
+                <div class="hero-content">
+                    <div class="container">
+                        <h1>خدمة عاملات منزلية احترافية</h1>
+                        <p>اختر نوع الحجز المناسب لاحتياجاتك بسهولة وسرعة</p>
+                        <a href="#booking-options" class="btn hero-btn">ابدأ الحجز</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BOOKING OPTIONS ===== -->
+        <section class="booking-options" id="booking-options">
+            <div class="container">
+                <h2>خيارات الحجز</h2>
+                <div class="options-grid">
+                    <div class="option-card">
+                        <div class="icon">⏰</div>
+                        <h3>حجز بالساعة</h3>
+                        <p>خدمة مرنة حسب عدد الساعات المطلوبة</p>
+                        <a href="hourly_booking.html" class="btn">احجز الآن</a>
+                    </div>
+                    <div class="option-card">
+                        <div class="icon">📅</div>
+                        <h3>حجز شهري</h3>
+                        <p>خدمة منتظمة طوال الشهر بسعر مميز</p>
+                        <a href="monthly_booking.html" class="btn">احجز الآن</a>
+                    </div>
+                    <div class="option-card">
+                        <div class="icon">🏠</div>
+                        <h3>حجز مقيم</h3>
+                        <p>عاملة منزلية مقيمة معك بشكل دائم</p>
+                        <a href="resident_booking.html" class="btn">احجز الآن</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURES ===== -->
+        <section class="features">
+            <div class="container">
+                <h2>مميزات خدمتنا</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <span>✅</span>
+                        <p>عاملات مدربات ومؤهلات</p>
+                    </div>
+                    <div class="feature">
+                        <span>💰</span>
+                        <p>أسعار تنافسية</p>
+                    </div>
+                    <div class="feature">
+                        <span>🕐</span>
+                        <p>خدمة على مدار الساعة</p>
+                    </div>
+                    <div class="feature">
+                        <span>🏆</span>
+                        <p>ضمان الجودة</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WORKERS ===== -->
+        <section class="workers-gallery">
+            <div class="container">
+                <h2>فريقنا من العاملات</h2>
+                <div class="workers-grid">
+                    <div class="worker-card">
+                        <img src="images/worker2.jpg" alt="عاملة منزلية" onerror="this.style.background='#ddd'">
+                        <h3>عاملة منزلية محترفة</h3>
+                        <p>خبرة في التنظيف والطبخ</p>
+                    </div>
+                    <div class="worker-card">
+                        <img src="images/worker3.jpg" alt="عاملة منزلية" onerror="this.style.background='#ddd'">
+                        <h3>عاملة منزلية مؤهلة</h3>
+                        <p>خبرة في رعاية الأطفال</p>
+                    </div>
+                    <div class="worker-card">
+                        <img src="images/worker4.jpg" alt="عاملة منزلية" onerror="this.style.background='#ddd'">
+                        <h3>عاملة منزلية مدربة</h3>
+                        <p>خبرة في أعمال المنزل</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 خدمات العاملات المنزلية - سماسكو. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto slider
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        if (slides.length > 0) {
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+            }
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }, 4000);
+        }
+    </script>
+
+</body>
+</html>
